@@ -2,6 +2,20 @@
 #include <stdio.h>
 #include <stdbool.h>
 
+void drawCircle(SDL_Renderer *renderer , int centerX, int centerY, int radius)
+{
+	for (int y = -radius; y <= radius; y++)
+	{
+		for (int x = -radius; x <= radius; x++)
+		{
+			if (x*x + y*y <= radius*radius)
+			{
+				SDL_RenderDrawPoint(renderer, centerX + x, centerY + y);
+			}
+		}
+	}
+}
+
 int main()
 {
     // 1. Initialize SDL
@@ -60,6 +74,13 @@ int main()
         // 5. Clear Screen (Black)
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         SDL_RenderClear(renderer);
+
+        int mouseX , mouseY;
+        SDL_GetMouseState(&mouseX, &mouseY);
+
+        SDL_SetRenderDrawColor(renderer, 20, 240, 200, 255);
+
+        drawCircle(renderer, mouseX, mouseY, 25);
 
         // 6. Present Frame
         SDL_RenderPresent(renderer);
